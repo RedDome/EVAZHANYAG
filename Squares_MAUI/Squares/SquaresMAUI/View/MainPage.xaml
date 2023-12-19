@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SquaresMAUI.View.MainPage"
+             Title="Squares">
+    <Grid Margin="4" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- a gombokat a képernyő tetejére helyezzük -->
+        <Button Text="Új játék" Command="{Binding NewGameCommand}" Grid.Row="0" HorizontalOptions="Start" />
+        <Button Text="Beállítások" Command="{Binding ExitCommand}" Grid.Row="0" HorizontalOptions="End" />
+
+        <Grid
+            Grid.Row="1"
+            BindableLayout.ItemsSource="{Binding Squares}"
+            RowDefinitions="{Binding GameTableRows}"
+            ColumnDefinitions="{Binding GameTableColumns}"
+            ColumnSpacing="4"
+            RowSpacing="4">
+            <!-- a játéktáblát egy sorfolytos listával valósítjuk meg -->
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <!-- a rács elemei gombok lesznek -->
+                    <Button
+                    Grid.Row="{Binding Y}"
+                    Grid.Column="{Binding X}"
+                    Command="{Binding ClickCommand}"
+                    CommandParameter="{Binding XY}"
+                    IsEnabled="{Binding IsUsage}"
+                    Padding="0"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    BackgroundColor="Red"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding Usage}" Value="-1">
+                                <Setter Property="Background" Value="Black" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" Binding="{Binding Usage}" Value="0">
+                                <Setter Property="Background" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" Binding="{Binding Usage}" Value="1">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" Binding="{Binding Usage}" Value="2">
+                                <Setter Property="Background" Value="Blue" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </Grid>
+
+        <!-- az információkat alul írjuk ki -->
+        <HorizontalStackLayout HorizontalOptions="Start" Grid.Row="2">
+            <Label Text="Current Player: Player " />
+            <Label Text="{Binding CurrentPlayer}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2">
+            <Label Text="Points Of Player 1: " />
+            <Label Text="{Binding P1Score}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="End" Grid.Row="2">
+            <Label Text="Points Of Player 2: " />
+            <Label Text="{Binding P2Score}" />
+        </HorizontalStackLayout>
+    </Grid>
+
+</ContentPage>
