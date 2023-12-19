@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZHProject.MAUI.View.MainPage"
+             Title="ZHProject">
+    <Grid Margin="4" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Button Text="Új játék" Command="{Binding NewGameCommand}" Grid.Row="0" HorizontalOptions="Start" />
+        <Button Text="Beállítások" Command="{Binding ExitCommand}" Grid.Row="0" HorizontalOptions="End" />
+
+        <Grid
+            Grid.Row="1"
+            BindableLayout.ItemsSource="{Binding Squares}"
+            RowDefinitions="{Binding GameTableRows}"
+            ColumnDefinitions="{Binding GameTableColumns}"
+            ColumnSpacing="4"
+            RowSpacing="4">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                    Grid.Row="{Binding Y}"
+                    Grid.Column="{Binding X}"
+                    Command="{Binding ClickCommand}"
+                    CommandParameter="{Binding XY}"
+                    IsEnabled="True"
+                    BackgroundColor="White"
+                    Padding="0"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+                    </Button>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </Grid>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2">
+            <Label Text="Score: " />
+            <Label Text="{Binding Score}" />
+        </HorizontalStackLayout>
+    </Grid>
+
+</ContentPage>
